@@ -7,7 +7,7 @@ departments AS (
         dept_id,
         hq_id,
         id,
-        customer_type_id,
+        derived_customer_type,
         status        
           
    FROM

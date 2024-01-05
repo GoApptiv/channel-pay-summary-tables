@@ -1,10 +1,10 @@
 with
  {{config(materialized = 'ephemeral')}}
 
-hq as (
+headquarter_orders as (
   SELECT 
-     department,
-     c.organization,
+     dept_code as department,
+     c.org_code as organization,
      region,
      area,
      headquarter,
@@ -15,18 +15,14 @@ hq as (
 FROM
  {{ref('stg_channelpay_prod_channelpay_orders')}} o
 JOIN
- {{ref('stg_channelpay_prod_channelpay_product_offers')}} po
-ON
- po.id =o.offer_id
-JOIN
  {{ref('stg_channelpay_prod_channelpay_clients')}} c
 ON
- c.id=po.org_id
+ c.id=o.org_id
 JOIN  
   {{ref('stg_channelpay_prod_channelpay_user_departments')}} ud
 ON
  ud.user_id =o.receiver_id
- AND po.dept_id =ud.dept_id
+ AND o.dept_id =ud.dept_id
 JOIN
  {{ref('stg_channelpay_prod_channelpay_headquarter_hierarchies')}} hh
 ON
@@ -35,12 +31,12 @@ WHERE
   ud.status ='active'
   AND hh.brick_status ='active'
 GROUP BY
- department,
- c.organization,
+ dept_code,
+ c.org_code,
  region,
  area,
  headquarter,
  month_year
 )
 
- SELECT * FROM hq
+ SELECT * FROM headquarter_orders
