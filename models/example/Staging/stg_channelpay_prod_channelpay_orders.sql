@@ -6,7 +6,8 @@ SELECT
      created_at,
      id,
      amount,
-     offer_id,
+     dept_id,
+     org_id,
      receiver_id
           
     FROM

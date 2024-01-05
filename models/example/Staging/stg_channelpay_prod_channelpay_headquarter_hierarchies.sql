@@ -3,6 +3,7 @@ WITH
 hierarchies AS (
  SELECT
       department,
+      customer_service_dept_code as dept_code,
       region,
       area,
       headquarter,
